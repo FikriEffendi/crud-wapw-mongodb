@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('dashboards', function (Blueprint $table) {
             $table->id();
+            $table->string('nama');
+            $table->string('email');
+            $table->string('password');
+            $table->string('role');
             $table->timestamps();
         });
     }

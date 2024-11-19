@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -19,7 +20,7 @@ class DashboardController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.create');
     }
 
     /**
@@ -27,7 +28,24 @@ class DashboardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validasi data
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|unique:dashboards,email',
+            'password' => 'required|min:6',
+            'role' => 'required|string',
+        ]);
+
+        //simpan data ke MongoDB
+        User::create([
+            'nama' => $validated['nama'],
+            'email' => $validated['email'],
+            'password' => bcrypt($validated['password']), //enkripsi password
+            'role' => $validated['role'],
+        ]);
+
+        //redirect ke halaman dashboard dengan pesan sukses
+        return redirect()->route('dashboard.index')->with('succes', 'Akun berhasil dibuat');
     }
 
     /**

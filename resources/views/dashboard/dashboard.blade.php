@@ -10,11 +10,11 @@
 
 <body>
     <div class="flex items-center justify-center max-w-full mt-5 mb-5">
-        <h1 class="max-w-full text-xl font-semibold text-blue-900 font-poppins">Daftar Akun Guru dan Staff</h1>
+        <div class="max-w-full text-xl font-semibold text-blue-900 font-poppins">Daftar Akun Guru dan Staff</div>
     </div>
 
     <div class="flex items-center justify-center max-w-2xl m-3 mx-auto">
-        <button class="p-3 text-white bg-purple-500 border border-blue-300 rounded-xl font-poppins hover:bg-purple-700">Tambah Akun</button>
+        <a href="{{url('dashboard/create')}}" class="p-3 text-white bg-purple-500 border border-blue-300 rounded-xl font-poppins hover:bg-purple-700">Tambah Akun</a>
     </div>
 
     <div class="flex items-center justify-center max-w-full m-3 font-poppins">
@@ -37,7 +37,7 @@
                     <td class="">
                         <div class="flex items-center justify-center gap-4">
                             <button class="text-red-500 hover:underline">Hapus</button>
-                            <button class="text-blue-500 hover:underline">Delete</button>
+                            <button class="text-blue-500 hover:underline">Edit</button>
                         </div>
                     </td>
                 </tr>
