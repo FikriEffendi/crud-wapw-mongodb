@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Dashboard;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -12,7 +12,13 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard.dashboard');
+        $dashboards = Dashboard::get();
+
+        $view_data = [
+            'dashboards' => $dashboards,
+        ];
+
+        return view('dashboard.dashboard', $view_data);
     }
 
     /**
@@ -37,7 +43,7 @@ class DashboardController extends Controller
         ]);
 
         //simpan data ke MongoDB
-        User::create([
+        Dashboard::create([
             'nama' => $validated['nama'],
             'email' => $validated['email'],
             'password' => bcrypt($validated['password']), //enkripsi password
@@ -45,7 +51,7 @@ class DashboardController extends Controller
         ]);
 
         //redirect ke halaman dashboard dengan pesan sukses
-        return redirect()->route('dashboard.index')->with('succes', 'Akun berhasil dibuat');
+        return redirect()->route('dashboard.index')->with('success', 'Akun berhasil dibuat');
     }
 
     /**
@@ -61,7 +67,13 @@ class DashboardController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $dashboard = Dashboard::findOrFail($id);
+
+        $view_data = [
+            'dashboard' => $dashboard,
+        ];
+
+        return view('dashboard.edit', $view_data);
     }
 
     /**
@@ -69,7 +81,17 @@ class DashboardController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $nama = $request->nama;
+        $email = $request->email;
+        $role = $request->role;
+
+        Dashboard::findOrFail($id)->update([
+            'nama' => $nama,
+            'email' => $email,
+            'role' => $role,
+        ]);
+
+        return redirect()->route('dashboard.index')->with('success', 'update success');
     }
 
     /**
@@ -77,6 +99,8 @@ class DashboardController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Dashboard::findOrFail($id)->delete();
+
+        return redirect()->route('dashboard.index')->with('success', 'delete success');
     }
 }

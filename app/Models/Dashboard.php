@@ -15,4 +15,8 @@ class Dashboard extends Model
         'password',
         'role',
     ];
+
+    protected $hidden = [
+        'password',
+    ];
 }

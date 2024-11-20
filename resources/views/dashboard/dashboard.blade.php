@@ -14,7 +14,7 @@
     </div>
 
     <div class="flex items-center justify-center max-w-2xl m-3 mx-auto">
-        <a href="{{url('dashboard/create')}}" class="p-3 text-white bg-purple-500 border border-blue-300 rounded-xl font-poppins hover:bg-purple-700">Tambah Akun</a>
+        <a href="{{route('dashboard.create')}}" class="p-3 text-white bg-purple-500 border border-blue-300 rounded-xl font-poppins hover:bg-purple-700">Tambah Akun</a>
     </div>
 
     <div class="flex items-center justify-center max-w-full m-3 font-poppins">
@@ -29,18 +29,33 @@
                 </tr>
             </thead>
             <tbody>
+
+                @php
+                $number=1;
+                @endphp
+
+                @foreach ($dashboards as $dashboard)
+
                 <tr class="text-center odd:bg-white even:bg-gray-100">
-                    <td class="px-4 py-2 border border-gray-300">1</td>
-                    <td class="px-4 py-2 border border-gray-300">Fikri Athanabil</td>
-                    <td class="px-4 py-2 border border-gray-300">fikri@gmail.com</td>
-                    <td class="px-4 py-2 text-center border border-gray-300">Guru</td>
+                    <td class="px-4 py-2 border border-gray-300">{{$number++}}</td>
+                    <td class="px-4 py-2 border border-gray-300">{{$dashboard->nama}}</td>
+                    <td class="px-4 py-2 border border-gray-300">{{$dashboard->email}}</td>
+                    <td class="px-4 py-2 text-center border border-gray-300">{{$dashboard->role}}</td>
                     <td class="">
                         <div class="flex items-center justify-center gap-4">
-                            <button class="text-red-500 hover:underline">Hapus</button>
-                            <button class="text-blue-500 hover:underline">Edit</button>
+                            <form action="{{route('dashboard.destroy',['id'=>$dashboard->id])}}" method="POST">
+                                @method('DELETE')
+                                @csrf
+                                <button class="text-red-500 hover:underline">Hapus</button>
+                            </form>
+
+                            <a class="text-blue-500 hover:underline" href="{{route('dashboard.edit',['id'=>$dashboard->id])}}">Edit</a>
                         </div>
                     </td>
                 </tr>
+
+                @endforeach
+
             </tbody>
         </table>
     </div>
